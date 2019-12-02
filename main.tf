@@ -19,22 +19,18 @@ data "aws_iam_policy_document" "trust_policy" {
     effect  = "Allow"
     actions = ["sts:AssumeRole"]
 
-    principals {
-      type        = "Service"
-      identifiers = var.service_principals
+    dynamic principals {
+      for_each = var.service_principals
+      content {
+        type        = "Service"
+        identifiers = [principals.value]
+      }
     }
-  }
-
-  dynamic statement {
-    for_each = var.iam_role_principals_arns[*]
-
-    content {
-      effect  = "Allow"
-      actions = ["sts:AssumeRole"]
-
-      principals {
+    dynamic principals {
+      for_each = var.iam_role_principals_arns
+      content {
         type        = "AWS"
-        identifiers = each.value
+        identifiers = [principals.value]
       }
     }
   }

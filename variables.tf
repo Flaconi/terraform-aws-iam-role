@@ -33,6 +33,7 @@ variable "attach_policy_arns" {
 
 variable "iam_role_principals_arns" {
   description = "Other IAM Principals which can assume the role"
+  type        = list(string)
   default     = []
 }
 
