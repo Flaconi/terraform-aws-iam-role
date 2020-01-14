@@ -10,6 +10,7 @@ variable "name" {
 
 variable "tags" {
   description = "Tags applied to the resources"
+  type        = map(string)
   default     = {}
 }
 
