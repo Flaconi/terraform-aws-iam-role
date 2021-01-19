@@ -42,5 +42,23 @@ variable "iam_role_principals_arns" {
 variable "service_principals" {
   description = "IAM service Principals which can assume the role"
   type        = list(string)
-  default     = ["ec2.amazonaws.com"]
+  default     = []
+}
+
+variable "federated_principals" {
+  description = "Federated principals which can assume the role"
+  type        = list(string)
+  default     = []
+}
+
+variable "trust_conditions" {
+  description = "Conditions on the trust policy"
+  type        = any
+  default     = []
+}
+
+variable "trust_policy_actions" {
+  description = "List of actions allowed, defaults to sts:AssumeRole"
+  type        = list(string)
+  default     = ["sts:AssumeRole"]
 }
