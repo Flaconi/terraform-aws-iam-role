@@ -17,21 +17,39 @@ data "aws_iam_policy_document" "trust_policy" {
   count = var.enabled ? 1 : 0
   statement {
     effect  = "Allow"
-    actions = ["sts:AssumeRole"]
+    actions = var.trust_policy_actions
+
+    dynamic "principals" {
+      for_each = length(var.federated_principals) > 0 ? [1] : []
+      content {
+        type        = "Federated"
+        identifiers = var.federated_principals
+      }
+    }
 
     principals {
       type = "Service"
       identifiers = [
-        for service_principal in var.service_principals:
+        for service_principal in var.service_principals :
         service_principal
       ]
     }
     principals {
       type = "AWS"
       identifiers = [
-        for iam_role_principals_arn in var.iam_role_principals_arns:
+        for iam_role_principals_arn in var.iam_role_principals_arns :
         iam_role_principals_arn
       ]
+    }
+
+    dynamic "condition" {
+      for_each = var.trust_conditions
+
+      content {
+        test     = condition.value.test
+        variable = condition.value.variable
+        values   = condition.value.values
+      }
     }
   }
 }
@@ -40,7 +58,7 @@ data "aws_iam_policy_document" "trust_policy" {
 data "aws_iam_policy_document" "this" {
   count = var.enabled ? length(var.inline_policies) : 0
 
-  dynamic statement {
+  dynamic "statement" {
     for_each = var.inline_policies[count.index].statements
 
     content {
