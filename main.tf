@@ -40,7 +40,7 @@ data "aws_iam_policy_document" "trust_policy" {
 data "aws_iam_policy_document" "this" {
   count = var.enabled ? length(var.inline_policies) : 0
 
-  dynamic statement {
+  dynamic "statement" {
     for_each = var.inline_policies[count.index].statements
 
     content {
