@@ -2,7 +2,7 @@
 
 [![Lint Status](https://github.com/Flaconi/terraform-aws-iam-role/actions/workflows/linting.yml/badge.svg?branch=master)](https://github.com/Flaconi/terraform-aws-iam-role/actions/workflows/linting.yml)
 [![Docs Status](https://github.com/Flaconi/terraform-aws-iam-role/actions/workflows/terraform-docs.yml/badge.svg?branch=master)](https://github.com/Flaconi/terraform-aws-iam-role/actions/workflows/terraform-docs.yml)
-[![Tag](https://img.shields.io/github/tag/Flaconi/terraform-aws-system-user-role.svg)](https://github.com/Flaconi/terraform-aws-system-user-role/releases)
+[![Tag](https://img.shields.io/github/tag/Flaconi/terraform-aws-iam-role.svg)](https://github.com/Flaconi/terraform-aws-iam-role/releases)
 [![license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
 
 Terraform module that provides an IAM User and IAM Role with given policies.
