@@ -22,14 +22,14 @@ data "aws_iam_policy_document" "trust_policy" {
     principals {
       type = "Service"
       identifiers = [
-        for service_principal in var.service_principals:
+        for service_principal in var.service_principals :
         service_principal
       ]
     }
     principals {
       type = "AWS"
       identifiers = [
-        for iam_role_principals_arn in var.iam_role_principals_arns:
+        for iam_role_principals_arn in var.iam_role_principals_arns :
         iam_role_principals_arn
       ]
     }
