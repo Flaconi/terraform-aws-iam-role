@@ -17,7 +17,15 @@ data "aws_iam_policy_document" "trust_policy" {
   count = var.enabled ? 1 : 0
   statement {
     effect  = "Allow"
-    actions = ["sts:AssumeRole"]
+    actions = var.trust_policy_actions
+
+    dynamic "principals" {
+      for_each = length(var.federated_principals) > 0 ? [1] : []
+      content {
+        type        = "Federated"
+        identifiers = var.federated_principals
+      }
+    }
 
     principals {
       type = "Service"
@@ -32,6 +40,16 @@ data "aws_iam_policy_document" "trust_policy" {
         for iam_role_principals_arn in var.iam_role_principals_arns :
         iam_role_principals_arn
       ]
+    }
+
+    dynamic "condition" {
+      for_each = var.trust_conditions
+
+      content {
+        test     = condition.value.test
+        variable = condition.value.variable
+        values   = condition.value.values
+      }
     }
   }
 }
